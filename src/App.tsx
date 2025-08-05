@@ -1,26 +1,32 @@
 import { useState, useEffect } from 'react'
 import Header from './components/Header'
-import QREnrollmentInterface from './components/QREnrollmentInterface'
+import StickerCampaignInterface from './components/StickerCampaignInterface'
+import WalletConnect from './components/WalletConnect'
 import { initKonamiCode } from './utils/whimsy'
-import { Sparkles, Zap, QrCode } from 'lucide-react'
+import { Sparkles, Zap, Gift } from 'lucide-react'
 
 function App() {
-  const [isEnrolled, setIsEnrolled] = useState(false)
-  const [userProfile, setUserProfile] = useState<{
-    id: string
-    name: string
-    wallet?: string
-  } | null>(null)
+  const [isWalletConnected, setIsWalletConnected] = useState(false)
+  const [walletAddress, setWalletAddress] = useState('')
+  const [tokenBalance, setTokenBalance] = useState(0)
+  const [isEligible, setIsEligible] = useState(false)
   const [showSecretMessage, setShowSecretMessage] = useState(false)
 
-  const handleEnrollment = (profile: { id: string; name: string; wallet?: string }) => {
-    setUserProfile(profile)
-    setIsEnrolled(true)
+  const handleWalletConnect = (address: string) => {
+    setWalletAddress(address)
+    setIsWalletConnected(true)
+    // TODO: Fetch actual $peeAI token balance
+    // For demo, set random balance
+    const demoBalance = Math.floor(Math.random() * 10000) + 500
+    setTokenBalance(demoBalance)
+    setIsEligible(demoBalance >= 1000) // Minimum 1000 $peeAI tokens
   }
 
-  const handleLogout = () => {
-    setUserProfile(null)
-    setIsEnrolled(false)
+  const handleWalletDisconnect = () => {
+    setWalletAddress('')
+    setIsWalletConnected(false)
+    setTokenBalance(0)
+    setIsEligible(false)
   }
   
   // Initialize Konami code easter egg
@@ -36,18 +42,22 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-background via-primary-background to-primary-text relative">
       <Header 
-        isConnected={isEnrolled}
-        walletAddress={userProfile?.wallet || userProfile?.id || ''}
-        onDisconnect={handleLogout}
+        isConnected={isWalletConnected}
+        walletAddress={walletAddress}
+        onDisconnect={handleWalletDisconnect}
       />
       
-      {/* Main QR Enrollment Interface - Always Visible */}
-      <main className={`container mx-auto px-4 py-8 transition-all duration-500 ${!isEnrolled ? 'blur-sm scale-95' : 'blur-none scale-100'}`}>
-        <QREnrollmentInterface userProfile={userProfile} />
+      {/* Main Sticker Campaign Interface - Always Visible */}
+      <main className={`container mx-auto px-4 py-8 transition-all duration-500 ${!isWalletConnected ? 'blur-sm scale-95' : 'blur-none scale-100'}`}>
+        <StickerCampaignInterface 
+          walletAddress={walletAddress}
+          tokenBalance={tokenBalance}
+          isEligible={isEligible}
+        />
       </main>
 
-      {/* Enrollment Popup Overlay */}
-      {!isEnrolled && (
+      {/* Wallet Connection Popup Overlay */}
+      {!isWalletConnected && (
         <div className="fixed inset-0 bg-primary-background/80 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in">
           <div className="relative max-w-md mx-4">
             {/* Floating particles */}
@@ -68,40 +78,29 @@ function App() {
               {/* Main content */}
               <div className="relative z-10">
                 <div className="text-6xl mb-6 animate-float">
-                  <QrCode className="w-16 h-16 mx-auto text-primary-accent" />
+                  <Gift className="w-16 h-16 mx-auto text-primary-accent" />
                 </div>
                 <h1 className="text-3xl md:text-4xl font-bold text-primary-accent mb-4 glow leading-tight">
-                  ENROLL WITH
+                  CONNECT WALLET
                   <br />
                   <span className="text-2xl md:text-3xl bg-gradient-to-r from-primary-accent to-primary-hover bg-clip-text text-transparent">
-                    $peeAi QR CODE
+                    FOR QR STICKERS
                   </span>
                 </h1>
                 
                 <p className="text-lg text-primary-accent/80 mb-8 leading-relaxed">
-                  Scan your QR code to join the $peeAi ecosystem
+                  Hold $peeAI tokens to qualify for exclusive QR stickers
                   <br />
-                  <span className="text-sm text-primary-accent/60">🤖 AI-Powered • 📱 Mobile-First • 🔐 Secure Enrollment</span>
+                  <span className="text-sm text-primary-accent/60">🎁 Free Stickers • 📦 Global Shipping • 🔥 Limited Campaign</span>
                 </p>
                 
                 <div className="transform hover:scale-105 transition-transform duration-200">
-                  <button
-                    onClick={() => {
-                      // Demo enrollment - in real app this would trigger QR scanner
-                      handleEnrollment({
-                        id: 'demo-user-' + Date.now(),
-                        name: 'Demo User'
-                      })
-                    }}
-                    className="btn-primary w-full py-4 text-lg font-semibold"
-                  >
-                    Start QR Enrollment
-                  </button>
+                  <WalletConnect onConnect={handleWalletConnect} />
                 </div>
                 
                 <div className="mt-6 flex items-center justify-center space-x-2 text-primary-accent/60 text-sm">
                   <Zap className="w-4 h-4" />
-                  <span>AI-Powered • Secure • Community Driven</span>
+                  <span>Token Holders Only • Limited Time • Exclusive</span>
                   <Zap className="w-4 h-4" />
                 </div>
               </div>

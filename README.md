@@ -1,30 +1,30 @@
-# $peeAi QR Code Enrollment
+# $peeAI QR Sticker Campaign
 
-**AI-Powered QR Code Enrollment System for the $peeAi Ecosystem**
+**Exclusive Marketing Campaign for $peeAI Token Holders**
 
-A modern React application built for seamless user enrollment through QR code scanning and generation. This app serves as the entry point for users joining the $peeAi community with AI-powered features and secure enrollment processes.
+A modern React application designed for $peeAI token holders to enroll in an exclusive marketing campaign and receive free QR code stickers. Users must hold a minimum amount of $peeAI tokens to qualify for the limited-time sticker giveaway.
 
 ## 🚀 Features
 
 ### Core Functionality
-- **🔍 QR Code Scanning**: Camera-based QR code scanning for user enrollment
-- **📱 QR Code Generation**: Create enrollment invitation QR codes
-- **👤 User Profiles**: Comprehensive enrollment with preferences
-- **🤖 AI Integration**: Personalized AI-powered recommendations
-- **📊 Analytics Dashboard**: Track enrollment metrics and user engagement
+- **💰 Token Verification**: Automatic $peeAI token balance checking
+- **🎁 Sticker Enrollment**: Campaign enrollment for qualified token holders
+- **📦 Delivery Management**: Shipping address collection and validation
+- **📊 Campaign Stats**: Real-time enrollment and availability tracking
+- **🔐 Wallet Integration**: Secure wallet connection for token verification
 
 ### Technical Features
 - **⚡ Modern Stack**: React 18 + TypeScript + Vite
 - **🎨 Responsive Design**: Mobile-first with Tailwind CSS
-- **🔐 Secure**: Privacy-focused enrollment process
+- **🔐 Secure**: Privacy-focused data collection
 - **🚀 Fast**: Optimized performance with code splitting
-- **📱 PWA Ready**: Progressive Web App capabilities
+- **📱 Mobile Optimized**: Touch-friendly interface for mobile users
 
 ## 🛠️ Tech Stack
 
 - **Frontend**: React 18, TypeScript, Vite
 - **Styling**: Tailwind CSS, Lucide React icons
-- **QR Processing**: qrcode, qrcode-generator, react-qr-scanner
+- **Wallet Integration**: Web3 wallet connection
 - **Build Tools**: Vite, ESLint, PostCSS
 - **Deployment**: GitHub Pages / Vercel ready
 
@@ -33,7 +33,8 @@ A modern React application built for seamless user enrollment through QR code sc
 ### Prerequisites
 - Node.js 18+ 
 - npm or yarn
-- Camera access for QR scanning
+- Web3 wallet (MetaMask, Phantom, etc.)
+- $peeAI tokens for campaign eligibility
 
 ### Installation
 ```bash
@@ -58,23 +59,24 @@ npm run lint     # Run ESLint
 
 ## 📱 Usage
 
-### For Users
-1. **Enrollment**: Click "Start QR Enrollment" to begin
-2. **Profile Setup**: Complete your enrollment profile
-3. **QR Scanning**: Use camera to scan invitation QR codes
-4. **AI Preferences**: Configure your AI-powered experience
+### For Token Holders
+1. **Connect Wallet**: Connect your Web3 wallet to verify $peeAI balance
+2. **Check Eligibility**: App automatically verifies you hold minimum 1,000 $peeAI tokens
+3. **Enroll**: Fill out delivery information if eligible
+4. **Receive Stickers**: Free QR stickers shipped globally within 2-3 weeks
 
-### For Developers
-1. **Generate QR**: Create enrollment invitations
-2. **Scan QR**: Process enrollment requests
-3. **Manage Profiles**: Admin user management interface
+### Campaign Requirements
+- **Minimum Balance**: 1,000 $peeAI tokens
+- **Limited Time**: Campaign runs for limited period
+- **Global Shipping**: Worldwide delivery available
+- **Privacy First**: Personal data only used for shipping
 
 ## 🎯 User Flow
 
 ```
-Landing Page → QR Enrollment → Profile Setup → Dashboard
-     ↓              ↓              ↓           ↓
-  Welcome      Camera/Upload   Preferences   Features
+Landing Page → Connect Wallet → Token Check → Sticker Enrollment → Confirmation
+     ↓              ↓              ↓              ↓                 ↓
+  Campaign      Wallet Auth    Balance Check   Delivery Info     Success
 ```
 
 ## 🔧 Configuration
@@ -83,8 +85,9 @@ Landing Page → QR Enrollment → Profile Setup → Dashboard
 ```bash
 # Create .env.local
 VITE_API_BASE_URL=https://api.peeai.com
-VITE_QR_SCAN_TIMEOUT=10000
-VITE_AI_FEATURES_ENABLED=true
+VITE_MIN_TOKEN_BALANCE=1000
+VITE_PEEAI_TOKEN_ADDRESS=0x...
+VITE_CAMPAIGN_ENABLED=true
 ```
 
 ### Deployment
