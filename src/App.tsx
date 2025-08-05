@@ -63,7 +63,7 @@ function App() {
       />
       
       {/* Main Sticker Campaign Interface - Always Visible */}
-      <main className={`relative z-10 container mx-auto px-4 py-8 transition-all duration-500 ${!isWalletConnected ? 'blur-sm scale-95' : 'blur-none scale-100'}`}>
+      <main className={`relative z-10 max-w-2xl mx-auto px-4 py-6 transition-all duration-500 ${!isWalletConnected ? 'blur-sm scale-95' : 'blur-none scale-100'}`}>
         <StickerCampaignInterface 
           walletAddress={walletAddress}
           tokenBalance={tokenBalance}
@@ -74,7 +74,7 @@ function App() {
       {/* Wallet Connection Popup Overlay */}
       {!isWalletConnected && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-xl flex items-center justify-center z-50 animate-fade-in">
-          <div className="relative max-w-md mx-4">
+          <div className="relative max-w-sm mx-4">
             {/* Floating particles */}
             <div className="absolute -top-10 -left-10 w-4 h-4 bg-purple-400 rounded-full animate-ping opacity-75" />
             <div className="absolute -top-5 -right-8 w-2 h-2 bg-blue-400 rounded-full animate-pulse" />
@@ -82,7 +82,7 @@ function App() {
             <div className="absolute -bottom-5 -right-10 w-2 h-2 bg-cyan-400 rounded-full animate-ping" style={{ animationDelay: '0.5s' }} />
             
             {/* Main popup card */}
-            <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl text-center p-8 transform animate-bounce-in relative overflow-hidden shadow-2xl">
+            <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl text-center p-6 transform animate-bounce-in relative overflow-hidden shadow-2xl">
               {/* Sparkle overlay */}
               <div className="absolute inset-0 sparkle-container">
                 <Sparkles className="absolute top-4 right-4 w-6 h-6 text-purple-300/50 animate-pulse" />
@@ -92,20 +92,20 @@ function App() {
               
               {/* Main content */}
               <div className="relative z-10">
-                <div className="text-6xl mb-6 animate-float">
-                  <div className="w-20 h-20 mx-auto bg-gradient-to-br from-purple-400 via-pink-400 to-blue-400 rounded-full flex items-center justify-center shadow-xl">
-                    <Gift className="w-10 h-10 text-white" />
+                <div className="text-5xl mb-4 animate-float">
+                  <div className="w-16 h-16 mx-auto bg-gradient-to-br from-purple-400 via-pink-400 to-blue-400 rounded-full flex items-center justify-center shadow-xl">
+                    <Gift className="w-8 h-8 text-white" />
                   </div>
                 </div>
-                <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
+                <h1 className="text-2xl md:text-3xl font-bold text-white mb-3 leading-tight">
                   CONNECT WALLET
                   <br />
-                  <span className="text-2xl md:text-3xl bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent font-extrabold">
+                  <span className="text-xl md:text-2xl bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent font-extrabold">
                     FOR QR STICKERS
                   </span>
                 </h1>
                 
-                <p className="text-lg text-white/90 mb-8 leading-relaxed">
+                <p className="text-white/90 mb-6 leading-relaxed">
                   Hold $peeAI tokens to qualify for exclusive QR stickers
                   <br />
                   <span className="text-sm text-white/70">🎁 Free Stickers • 📦 Global Shipping • 🔥 Limited Campaign</span>
@@ -115,7 +115,7 @@ function App() {
                   <WalletConnect onConnect={handleWalletConnect} />
                 </div>
                 
-                <div className="mt-6 flex items-center justify-center space-x-2 text-white/60 text-sm">
+                <div className="mt-4 flex items-center justify-center space-x-2 text-white/60 text-sm">
                   <Zap className="w-4 h-4" />
                   <span>Token Holders Only • Limited Time • Exclusive</span>
                   <Zap className="w-4 h-4" />
