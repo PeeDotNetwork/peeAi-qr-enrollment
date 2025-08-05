@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Gift, Coins, MapPin, Mail, CheckCircle, AlertCircle, Trophy, Users } from 'lucide-react'
+import { Gift, Coins, MapPin, Mail, CheckCircle, AlertCircle, Trophy, Users, ChevronDown, ChevronUp, Info, Eye, EyeOff } from 'lucide-react'
 
 interface StickerCampaignInterfaceProps {
   walletAddress: string | null
@@ -20,6 +20,12 @@ const StickerCampaignInterface = ({ walletAddress, tokenBalance, isEligible }: S
   })
   const [isEnrolled, setIsEnrolled] = useState(false)
   const [enrollmentStatus, setEnrollmentStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+  
+  // Toggle states
+  const [showCampaignDetails, setShowCampaignDetails] = useState(false)
+  const [showOptionalFields, setShowOptionalFields] = useState(false)
+  const [showDetailedStats, setShowDetailedStats] = useState(false)
+  const [showBalanceDetails, setShowBalanceDetails] = useState(true)
 
   const minTokensRequired = 1000
 
@@ -87,13 +93,47 @@ const StickerCampaignInterface = ({ walletAddress, tokenBalance, isEligible }: S
               </p>
             </div>
           </div>
-          <div className="text-right">
+          <div className="text-right space-y-3">
             <div className="flex items-center space-x-3 bg-gradient-to-r from-yellow-400/20 to-orange-400/20 px-4 py-2 rounded-full border border-yellow-400/30">
               <Trophy className="w-6 h-6 text-yellow-400" />
               <span className="text-white/90 font-medium">Limited Time</span>
             </div>
+            <button
+              onClick={() => setShowCampaignDetails(!showCampaignDetails)}
+              className="flex items-center space-x-2 text-white/70 hover:text-white transition-colors duration-200"
+            >
+              <Info className="w-4 h-4" />
+              <span className="text-sm">Details</span>
+              {showCampaignDetails ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </button>
           </div>
         </div>
+        
+        {/* Collapsible Campaign Details */}
+        {showCampaignDetails && (
+          <div className="mt-6 p-6 bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-400/20 rounded-2xl backdrop-blur-sm animate-fade-in">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h3 className="text-lg font-semibold text-purple-300 mb-3">🎁 What You Get</h3>
+                <ul className="space-y-2 text-white/80">
+                  <li>• Premium QR code stickers (set of 5)</li>
+                  <li>• Holographic $peeAI branding</li>
+                  <li>• Waterproof & weather resistant</li>
+                  <li>• Exclusive limited edition design</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-pink-300 mb-3">📦 Shipping Info</h3>
+                <ul className="space-y-2 text-white/80">
+                  <li>• Free worldwide shipping</li>
+                  <li>• 2-3 weeks delivery time</li>
+                  <li>• Tracked & insured packages</li>
+                  <li>• Limited to 5,000 stickers total</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Token Balance Status */}
@@ -105,20 +145,30 @@ const StickerCampaignInterface = ({ walletAddress, tokenBalance, isEligible }: S
             </div>
             Token Balance Check
           </h2>
-          {isEligible ? (
-            <div className="flex items-center space-x-3 px-4 py-2 bg-gradient-to-r from-green-400/20 to-emerald-400/20 rounded-full border border-green-400/40">
-              <CheckCircle className="w-5 h-5 text-green-400" />
-              <span className="text-green-400 font-semibold">Eligible</span>
-            </div>
-          ) : (
-            <div className="flex items-center space-x-3 px-4 py-2 bg-gradient-to-r from-red-400/20 to-pink-400/20 rounded-full border border-red-400/40">
-              <AlertCircle className="w-5 h-5 text-red-400" />
-              <span className="text-red-400 font-semibold">Not Eligible</span>
-            </div>
-          )}
+          <div className="flex items-center space-x-4">
+            {isEligible ? (
+              <div className="flex items-center space-x-3 px-4 py-2 bg-gradient-to-r from-green-400/20 to-emerald-400/20 rounded-full border border-green-400/40">
+                <CheckCircle className="w-5 h-5 text-green-400" />
+                <span className="text-green-400 font-semibold">Eligible</span>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-3 px-4 py-2 bg-gradient-to-r from-red-400/20 to-pink-400/20 rounded-full border border-red-400/40">
+                <AlertCircle className="w-5 h-5 text-red-400" />
+                <span className="text-red-400 font-semibold">Not Eligible</span>
+              </div>
+            )}
+            <button
+              onClick={() => setShowBalanceDetails(!showBalanceDetails)}
+              className="flex items-center space-x-2 text-white/70 hover:text-white transition-colors duration-200"
+            >
+              {showBalanceDetails ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+              <span className="text-sm">{showBalanceDetails ? 'Hide' : 'Show'} Details</span>
+            </button>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {showBalanceDetails && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in">
           <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-sm rounded-2xl p-6 border border-blue-400/30 hover:border-blue-400/50 transition-all duration-300">
             <p className="text-sm text-blue-300 mb-2 font-medium">Your Balance</p>
             <p className="text-3xl font-bold text-white">
@@ -147,6 +197,7 @@ const StickerCampaignInterface = ({ walletAddress, tokenBalance, isEligible }: S
             </p>
           </div>
         </div>
+        )}
 
         {!isEligible && (
           <div className="mt-6 p-6 bg-gradient-to-r from-red-500/10 to-pink-500/10 border border-red-400/30 rounded-2xl backdrop-blur-sm">
@@ -270,11 +321,25 @@ const StickerCampaignInterface = ({ walletAddress, tokenBalance, isEligible }: S
                     placeholder="Enter your country"
                   />
                 </div>
+              </div>
 
-                <div>
-                  <label className="block text-sm font-semibold text-white/80 mb-3">
-                    Telegram (Optional)
-                  </label>
+              {/* Optional Fields Toggle */}
+              <div className="pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowOptionalFields(!showOptionalFields)}
+                  className="flex items-center space-x-2 text-white/70 hover:text-white transition-colors duration-200 mb-4"
+                >
+                  <span className="text-sm font-medium">Optional Fields (Social Media)</span>
+                  {showOptionalFields ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                </button>
+
+                {showOptionalFields && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in">
+                    <div>
+                      <label className="block text-sm font-semibold text-white/80 mb-3">
+                        Telegram (Optional)
+                      </label>
                   <input
                     type="text"
                     value={enrollmentData.telegram}
@@ -295,7 +360,9 @@ const StickerCampaignInterface = ({ walletAddress, tokenBalance, isEligible }: S
                     className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-xl text-white placeholder-white/50 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/20 transition-all duration-300 backdrop-blur-sm"
                     placeholder="username#1234"
                   />
-                </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="pt-6">
